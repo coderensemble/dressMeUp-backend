@@ -3,22 +3,22 @@ const mongoose = require('mongoose');
 const clotheSchema = mongoose.Schema({
   name: String,
   color: String,
-  image: Image,
+  image: String,
   subtype: String,
   brand: String,
   event: {
-    party: boolean,
-    sport: boolean,
-    casual: boolean,
-    work: boolean
+    party: Boolean,
+    sport: Boolean,
+    casual: Boolean,
+    work: Boolean
   },
   material: String,
   cut: String,
   saison: {
-    spring: boolean,
-    summer: boolean,
-    fall: boolean,
-    winter: boolean
+    spring: Boolean,
+    summer: Boolean,
+    fall: Boolean,
+    winter: Boolean
   },
   waterproof: Boolean
 });

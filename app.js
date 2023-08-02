@@ -1,5 +1,5 @@
 require('dotenv').config();
-require("../models/connection");
+require("../dressMeUp-backend/models/connection");
 
 
 var express = require('express');

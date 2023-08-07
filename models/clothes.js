@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const clotheSchema = mongoose.Schema({
   name: String,
   maintype: String,
-  color: String,
+  color: {},
   image: String,
   subtype: String,
   brand: String,
@@ -15,7 +15,7 @@ const clotheSchema = mongoose.Schema({
   },
   material: String,
   cut: String,
-  saison: {
+  season: {
     spring: Boolean,
     summer: Boolean,
     fall: Boolean,

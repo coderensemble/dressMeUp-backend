@@ -13,6 +13,10 @@ var outfitsRouter = require('./routes/outfits');
 var clothesRouter = require('./routes/clothes');
 
 var app = express();
+
+const fileUpload = require('express-fileupload');
+app.use(fileUpload());
+
 const cors = require('cors');
 app.use(cors());
 

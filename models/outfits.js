@@ -1,14 +1,18 @@
 const mongoose = require("mongoose");
 
 const outfitSchema = mongoose.Schema({
-  top: [{type: mongoose.Schema.Types.ObjectId, ref:'clothes'}],
-  pant: [{type: mongoose.Schema.Types.ObjectId, ref:'clothes'}],
-  shoes: [{type: mongoose.Schema.Types.ObjectId, ref:'clothes'}],
-  accessory1: [{type: mongoose.Schema.Types.ObjectId, ref:'clothes'}],
-  accessory2: [{type: mongoose.Schema.Types.ObjectId, ref:'clothes'}],
-  accessory3: [{type: mongoose.Schema.Types.ObjectId, ref:'clothes'}],
-  isFavorite: Boolean,
-  image: String 
+  username: String,
+  top1: Object,
+  top2: Object,
+  bottom: Object,
+  shoes: Object,
+  accessory1: Object,
+  accessory2: Object,
+  accessory3: Object,
+  isFavorite: Object,
+  image: Object,
+  event: Object,
+  id: String
 });
 
 const Outfit = mongoose.model("outfits", outfitSchema);

@@ -4,25 +4,16 @@ const clotheSchema = mongoose.Schema({
   username: String,
   name: String,
   maintype: String,
-  color: {},
+  color: Object,
   image: String,
   subtype: String,
   brand: String,
-  event: {
-    party: Boolean,
-    sport: Boolean,
-    casual: Boolean,
-    work: Boolean
-  },
+  event: Object,
   material: String,
   cut: String,
-  season: {
-    spring: Boolean,
-    summer: Boolean,
-    fall: Boolean,
-    winter: Boolean
-  },
-  waterproof: Boolean
+  season: Object,
+  waterproof: String,
+  id: String
 });
 
 const Clothe = mongoose.model('clothes', clotheSchema);

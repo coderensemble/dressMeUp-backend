@@ -3,6 +3,9 @@ var router = express.Router();
 
 const { checkBody } = require("../modules/checkBody");
 const User = require("../models/users");
+const Clothe = require("../models/clothes");
+const Outfit = require("../models/outfits")
+
 const uid2 = require("uid2");
 const bcrypt = require("bcrypt");
 const cloudinary = require("cloudinary").v2;
@@ -88,7 +91,9 @@ router.put("/", (req, res) => {
 // Pour la page UserProfile / suppression du compte
 router.delete("/", (req, res) => {
   User.deleteOne({ username: req.params.username }).then(() => {
-    res.json({ message: "User deleted successfully" });
+    User.find().then(data => {
+      res.json({ message: "User deleted successfully" });
+    });
   });
 });
 
@@ -98,6 +103,24 @@ router.get("/", (req, res) => {
     //return console.log('data');
     res.json({ users: data });
     //console.log("ca va bien");
+  });
+});
+
+//Récupération des clothes depuis la DB
+router.post("/clothes", (req, res) => {
+  const username = req.body.username
+  Clothe.find({username: username}).then((data) => {
+    console.log("data côté back", data)
+    res.json(data)
+  });
+});
+
+//Récupération des clothes depuis la DB
+router.post("/outfits", (req, res) => {
+  const username = req.body.username
+  Outfit.find({username: username}).then((data) => {
+    console.log("data côté back", data)
+    res.json(data)
   });
 });
 

@@ -5,8 +5,6 @@ const userSchema = mongoose.Schema({
   email: String,
   password: String,
   token: String,
-  clothes: [{ type: mongoose.Schema.Types.ObjectId, ref: "clothes" }],
-  outfits: [{ type: mongoose.Schema.Types.ObjectId, ref: "outfits" }],
 });
 
 const User = mongoose.model("users", userSchema);

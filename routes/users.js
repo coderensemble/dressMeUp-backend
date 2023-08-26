@@ -1,10 +1,10 @@
-var express = require('express');
+var express = require("express");
 var router = express.Router();
 
 const { checkBody } = require("../modules/checkBody");
 const User = require("../models/users");
 const Clothe = require("../models/clothes");
-const Outfit = require("../models/outfits")
+const Outfit = require("../models/outfits");
 
 const uid2 = require("uid2");
 const bcrypt = require("bcrypt");
@@ -19,22 +19,27 @@ router.post("/signup", (req, res) => {
     return;
   }
 
-  User.findOne({ username: req.body.username }).then((data) => {
-    if (data === null) {
-      const hash = bcrypt.hashSync(req.body.password, 10);
-      const newUser = new User({
-        username: req.body.username,
-        email: req.body.email,
-        password: hash,
-        token: uid2(32),
-      });
-
-      newUser.save().then((newDoc) => {
-        res.json({ result: true, token: newDoc.token });
-      });
+  User.findOne({ username: req.body.username }).then((usernameFound) => {
+    if (usernameFound) {
+      res.json({ result: false, error: "Username already exists" });
     } else {
-      // User already exists in database
-      res.json({ result: false, error: "User already exists" });
+      User.findOne({ email: req.body.email }).then((emailFound) => {
+        if (emailFound) {
+          res.json({ result: false, error: "Email already exists" });
+        } else {
+          const hash = bcrypt.hashSync(req.body.password, 10);
+          const newUser = new User({
+            username: req.body.username,
+            email: req.body.email,
+            password: hash,
+            token: uid2(32),
+          });
+
+          newUser.save().then((newDoc) => {
+            res.json({ result: true, token: newDoc.token });
+          });
+        }
+      });
     }
   });
 });
@@ -89,10 +94,12 @@ router.put("/", (req, res) => {
 });
 
 // Pour la page UserProfile / suppression du compte
-router.delete("/", (req, res) => {
+router.delete("/:username", (req, res) => {
   User.deleteOne({ username: req.params.username }).then(() => {
-    User.find().then(data => {
-      res.json({ message: "User deleted successfully" });
+    Clothe.deleteMany({ username: req.params.username }).then(() => {
+      Outfit.deleteMany({ username: req.params.username }).then(() => {
+        res.json({ message: "User deleted successfully" });
+      });
     });
   });
 });
@@ -102,25 +109,24 @@ router.get("/", (req, res) => {
   User.find().then((data) => {
     //return console.log('data');
     res.json({ users: data });
-    //console.log("ca va bien");
   });
 });
 
 //Récupération des clothes depuis la DB
 router.post("/clothes", (req, res) => {
-  const username = req.body.username
-  Clothe.find({username: username}).then((data) => {
-    console.log("data côté back", data)
-    res.json(data)
+  const username = req.body.username;
+  Clothe.find({ username: username }).then((data) => {
+    console.log("data côté back", data);
+    res.json(data);
   });
 });
 
 //Récupération des clothes depuis la DB
 router.post("/outfits", (req, res) => {
-  const username = req.body.username
-  Outfit.find({username: username}).then((data) => {
-    console.log("data côté back", data)
-    res.json(data)
+  const username = req.body.username;
+  Outfit.find({ username: username }).then((data) => {
+    console.log("data côté back", data);
+    res.json(data);
   });
 });
 

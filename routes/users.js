@@ -131,18 +131,67 @@ router.post("/outfits", (req, res) => {
 });
 
 //pour uploader la photo profil
-router.post("/upload", async (req, res) => {
+// router.post("/upload-image", async (req, res) => {
+//   console.log(req.files.profilPict);
+//   // const token = "123xyz";
+
+//   const imageFile = req.files.profilPict;
+//   const tempImage = `../tmp/${uniqid()}.jpg`;
+//   const resultMove = await imageFile.mv(tempImage);
+//   console.log(resultMove);
+
+//   if (!resultMove) {
+//     const uploadRes = await cloudinary.uploader.upload(tempImage, {
+      // resource_type: "image",
+      // public_id: `images/users-profiles/user-${token}`,
+      // overwrite: true,
+//       //! overwrites the existing picture at specified public_id
+//     });
+//     res.json({ result: true });
+//     fs.unlinkSync(tempImage);
+
+    // return res.json({
+    //   success: true,
+    //   response: "success response",
+    //   cdn_url: uploadRes.secure_url,
+    // });
+//   } else {
+//     res.json({ result: false, error: resultMove });
+//   }
+ 
+
+  // return res.json({
+  //   success: false,
+  //   response: "route default response",
+  //   message: "shit happened outside of the try/catch block",
+  // });
+// });
+
+router.post('/:username/upload', async (req, res) => {
   const photoPath = `./tmp/${uniqid()}.jpg`;
-  const resultMove = await req.files.photoFromFront.mv(photoPath);
-  console.log("photo");
+  const resultMove = await req.files.profilPict.mv(photoPath);
+
   if (!resultMove) {
     const resultCloudinary = await cloudinary.uploader.upload(photoPath);
-    res.json({ result: true, url: resultCloudinary.secure_url });
+    console.log(resultCloudinary);
+
+// Mettez à jour l'URL de la photo dans la base de données
+User.findOneAndUpdate(
+  { username: req.params.username }, // Filtre pour trouver l'utilisateur
+  { profilPictURL: resultCloudinary.secure_url }, // Champ à mettre à jour
+  { new: true } // Pour renvoyer le document mis à jour
+)
+    .then((updatedUser) => {
+      res.json({ result: true, url: resultCloudinary.secure_url });
+    })
+
+    fs.unlinkSync(photoPath);
+
   } else {
     res.json({ result: false, error: resultMove });
   }
 
-  fs.unlinkSync(photoPath);
+  
 });
 
 module.exports = router;

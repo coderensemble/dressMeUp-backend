@@ -76,7 +76,7 @@ router.put("/", (req, res) => {
   const replacementEmail = req.body.replacementEmail;
 
   // Utilisez le modèle User pour rechercher l'utilisateur à modifier par son username
-  User.findOne({ username: req.body.username }).then((user) => {
+  User.findById({ _id: req.body._id }).then((user) => {
     if (!user) {
       // L'utilisateur n'a pas été trouvé, renvoyer une erreur
       res.json({ result: false, error: "User not found" });

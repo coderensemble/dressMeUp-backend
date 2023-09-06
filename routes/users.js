@@ -71,12 +71,12 @@ router.get("/home", (req, res) => {
 });
 
 // Pour la page UserProfile / modification du compte
-router.put("/", (req, res) => {
+router.put("/:username", (req, res) => {
   const replacementUsername = req.body.replacementUsername;
   const replacementEmail = req.body.replacementEmail;
 
   // Utilisez le modèle User pour rechercher l'utilisateur à modifier par son username
-  User.findById({ _id: req.body._id }).then((user) => {
+  User.findOne({ username: req.params.username }).then((user) => {
     if (!user) {
       // L'utilisateur n'a pas été trouvé, renvoyer une erreur
       res.json({ result: false, error: "User not found" });

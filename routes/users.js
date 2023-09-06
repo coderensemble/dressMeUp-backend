@@ -130,6 +130,7 @@ router.post("/outfits", (req, res) => {
   });
 });
 
+//Uploader la photo profil
 router.post('/:username/upload', async (req, res) => {
   const photoPath = `./tmp/${uniqid()}.jpg`;
   const resultMove = await req.files.profilPict.mv(photoPath);

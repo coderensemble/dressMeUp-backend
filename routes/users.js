@@ -130,43 +130,6 @@ router.post("/outfits", (req, res) => {
   });
 });
 
-//pour uploader la photo profil
-// router.post("/upload-image", async (req, res) => {
-//   console.log(req.files.profilPict);
-//   // const token = "123xyz";
-
-//   const imageFile = req.files.profilPict;
-//   const tempImage = `../tmp/${uniqid()}.jpg`;
-//   const resultMove = await imageFile.mv(tempImage);
-//   console.log(resultMove);
-
-//   if (!resultMove) {
-//     const uploadRes = await cloudinary.uploader.upload(tempImage, {
-      // resource_type: "image",
-      // public_id: `images/users-profiles/user-${token}`,
-      // overwrite: true,
-//       //! overwrites the existing picture at specified public_id
-//     });
-//     res.json({ result: true });
-//     fs.unlinkSync(tempImage);
-
-    // return res.json({
-    //   success: true,
-    //   response: "success response",
-    //   cdn_url: uploadRes.secure_url,
-    // });
-//   } else {
-//     res.json({ result: false, error: resultMove });
-//   }
- 
-
-  // return res.json({
-  //   success: false,
-  //   response: "route default response",
-  //   message: "shit happened outside of the try/catch block",
-  // });
-// });
-
 router.post('/:username/upload', async (req, res) => {
   const photoPath = `./tmp/${uniqid()}.jpg`;
   const resultMove = await req.files.profilPict.mv(photoPath);
